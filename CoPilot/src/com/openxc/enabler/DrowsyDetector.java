@@ -1,15 +1,18 @@
 package com.openxc.enabler;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
-import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +31,6 @@ import com.openxc.measurements.Measurement;
 import com.openxc.measurements.SteeringWheelAngle;
 import com.openxc.measurements.UnrecognizedMeasurementTypeException;
 import com.openxc.remote.VehicleServiceException;
-import com.openxc.units.Degree;
 
 
 
@@ -51,13 +53,19 @@ public class DrowsyDetector extends Activity {
     private boolean triedToWake = false;
     protected static boolean isPlaying = false;
     private boolean stopMusic = false;
+
     
     public class MusicThread extends Thread {
     	
     	
     	
     	public void run() {
-			MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bad);
+    		//ArrayList<HashMap<String,String>> songList = songs.getPlayList();
+    		//Random rand = new Random();
+    		//int randomSelection = rand.nextInt(songList.size()-1);
+    		//String songPath = songList.get(randomSelection).get("songPath");
+			//MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(songPath));
+    		MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bad);
 			mediaPlayer.start();
 			isPlaying = true;
 			System.out.println("RUNNINGGGG");
@@ -152,6 +160,7 @@ public class DrowsyDetector extends Activity {
 
 	            mHandler.post(new Runnable() {
 	                public void run() {
+	                    SongsManager songs = new SongsManager();
 	                	Thread playMusic= new Thread (new MusicThread());
                             if(isDrowsy && !isPlaying && !triedToWake) {	
 		                    	
