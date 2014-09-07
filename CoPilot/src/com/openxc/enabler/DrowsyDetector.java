@@ -10,6 +10,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
@@ -17,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,6 +55,7 @@ public class DrowsyDetector extends Activity {
     private boolean triedToWake = false;
     protected static boolean isPlaying = false;
     private boolean stopMusic = false;
+    //private SongsManager songs = new SongsManager(getApplicationContext());
 
     
     public class MusicThread extends Thread {
@@ -60,12 +63,12 @@ public class DrowsyDetector extends Activity {
     	
     	
     	public void run() {
-    		//ArrayList<HashMap<String,String>> songList = songs.getPlayList();
-    		//Random rand = new Random();
-    		//int randomSelection = rand.nextInt(songList.size()-1);
-    		//String songPath = songList.get(randomSelection).get("songPath");
-			//MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(songPath));
-    		MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bad);
+    		ArrayList<HashMap<String,String>> songList = getPlayList(getApplicationContext());
+    		Random rand = new Random();
+    		int randomSelection = rand.nextInt(songList.size()-1);
+    		String songPath = songList.get(randomSelection).get("songPath");
+			MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(songPath));
+    		//MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bad);
 			mediaPlayer.start();
 			isPlaying = true;
 			System.out.println("RUNNINGGGG");
@@ -79,6 +82,40 @@ public class DrowsyDetector extends Activity {
     	}
     	
     }
+    
+    public ArrayList<HashMap<String, String>> getPlayList(Context c) {
+		ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
+	    /*use content provider to get beginning of database query that queries for all audio by display name, path
+	    and mimtype which i dont use but got it incase you want to scan for mp3 files only you can compare with RFC  mimetype for mp3's
+	    */
+	    final Cursor mCursor = c.getContentResolver().query(
+	            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+	            new String[] { MediaStore.Audio.Media.DISPLAY_NAME, MediaStore.Audio.Media.DATA,MediaStore.Audio.Media.MIME_TYPE }, null, null,
+	            "LOWER(" + MediaStore.Audio.Media.TITLE + ") ASC");
+
+	    String songs_name = "";
+	    String mAudioPath = "";
+
+	    /* run through all the columns we got back and save the data we need into the arraylist for our listview*/
+	    if (mCursor.moveToFirst()) {
+	        do {
+
+	        String file_type = mCursor.getString(mCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE));
+
+
+	            songs_name = mCursor.getString(mCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME));
+	            mAudioPath = mCursor.getString(mCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
+	            HashMap<String, String> song = new HashMap<String, String>();
+
+	            song.put("songTitle", songs_name);
+	            song.put("songPath", mAudioPath);
+
+	            songsList.add(song);
+
+	        } while (mCursor.moveToNext());
+	    }
+	    return songsList;
+	}
     
     public void playTone(Context context) throws IOException {
     	Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -160,7 +197,7 @@ public class DrowsyDetector extends Activity {
 
 	            mHandler.post(new Runnable() {
 	                public void run() {
-	                    SongsManager songs = new SongsManager();
+
 	                	Thread playMusic= new Thread (new MusicThread());
                             if(isDrowsy && !isPlaying && !triedToWake) {	
 		                    	
@@ -207,8 +244,6 @@ public class DrowsyDetector extends Activity {
             try {
                 mVehicleManager.addListener(SteeringWheelAngle.class,
                         mSteeringWheelListener);
-                mVehicleManager.addListener(BrakePedalStatus.class,
-                        mBrakePedalStatus);
           //      mVehicleManager.addListener(Longitude.class,
           //      		mLongAccelListener);
             } catch(VehicleServiceException e) {
@@ -236,10 +271,6 @@ public class DrowsyDetector extends Activity {
 
         mSteeringWheelAngleView = (TextView) findViewById(
                 R.id.steering_wheel_angle);
-        mVehicleBrakeStatusView = (TextView) findViewById(
-                R.id.brake_pedal_status_label);
-        mAcceleratorPedalPositionView = (TextView) findViewById(
-                R.id.accelerator_pedal_position_label);
       //  mLongAccelView = (TextView) findViewById(
       //          R.id.android_long_Accel); 
     }

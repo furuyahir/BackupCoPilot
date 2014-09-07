@@ -23,10 +23,6 @@ public final class R {
     }
     public static final class id {
         public static final int ScrollView01=0x7f09000b;
-        public static final int accelerator_pedal_position=0x7f090011;
-        public static final int accelerator_pedal_position_label=0x7f090010;
-        public static final int brake_pedal_status=0x7f09000f;
-        public static final int brake_pedal_status_label=0x7f09000e;
         public static final int connection_bluetooth=0x7f090004;
         public static final int connection_file=0x7f090003;
         public static final int connection_network=0x7f090005;
@@ -36,11 +32,11 @@ public final class R {
         public static final int connection_usb=0x7f090006;
         public static final int message_count=0x7f090008;
         public static final int service_not_running_bar=0x7f090000;
-        public static final int settings=0x7f090012;
-        public static final int start_bluetooth_search_btn=0x7f090009;
+        public static final int settings=0x7f09000e;
+        public static final int start_bluetooth_search_btn=0x7f09000a;
         public static final int steering_wheel_angle=0x7f09000d;
         public static final int steering_wheel_angle_label=0x7f09000c;
-        public static final int view_vehicle_data_btn=0x7f09000a;
+        public static final int view_vehicle_data_btn=0x7f090009;
     }
     public static final class layout {
         public static final int main=0x7f030000;
@@ -55,7 +51,6 @@ public final class R {
     public static final class string {
         public static final int about_preferences=0x7f060020;
         public static final int about_summary=0x7f060043;
-        public static final int accelerator_pedal_position_label=0x7f06004b;
         public static final int active_connections=0x7f060012;
         public static final int app_name=0x7f060010;
         public static final int application_version_key=0x7f060046;
@@ -73,7 +68,6 @@ public final class R {
         public static final int bluetooth_polling_title=0x7f060032;
         public static final int bluetooth_search_button=0x7f06001c;
         public static final int bluetooth_settings=0x7f060023;
-        public static final int brake_pedal_status_label=0x7f06004a;
         public static final int connection_bluetooth=0x7f060017;
         public static final int connection_file=0x7f060016;
         public static final int connection_network=0x7f060019;

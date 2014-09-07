@@ -5,18 +5,22 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.content.*;
+import android.os.Environment;
+import android.widget.Toast;
 import android.app.Activity;
 
 // THANKS TO RAVI TAMADA http://www.androidhive.info/2012/03/android-building-audio-player-tutorial/
 
 public class SongsManager extends Activity {
 
-    final String MEDIA_PATH = new String(getApplicationContext().getFilesDir().toString());
+    final String MEDIA_PATH;// = new String(getApplicationContext().getFilesDir().toString());
+    //Toast.makeText(getApplicationContext(), MEDIA_PATH, Toast.LENGTH_SHORT).show();
     private ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
  
     // Constructor
-    public SongsManager(){
- 
+    public SongsManager(Context c){
+    	super();
+    	MEDIA_PATH = Environment.getRootDirectory().toString();// c.getFilesDir().toString();
     }
  
     public ArrayList<HashMap<String, String>> getPlayList(){

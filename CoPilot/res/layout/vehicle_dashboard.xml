@@ -20,26 +20,6 @@
                 android:id="@+id/steering_wheel_angle"
                 style="@style/ItemData" />
         </TableRow>
-
-        <TableRow style="@style/ItemRow">
-            <TextView
-                android:id="@+id/brake_pedal_status_label"
-                style="@style/ItemLabel"
-                android:text="@string/brake_pedal_status_label" />
-            <TextView
-                android:id="@+id/brake_pedal_status"
-                style="@style/ItemData" />
-        </TableRow>
-
-        <TableRow style="@style/ItemRow">
-            <TextView
-                android:id="@+id/accelerator_pedal_position_label"
-                style="@style/ItemLabel"
-                android:text="@string/accelerator_pedal_position_label" />
-            <TextView
-                android:id="@+id/accelerator_pedal_position"
-                style="@style/ItemData" />
-        </TableRow>
         
 
     </TableLayout>

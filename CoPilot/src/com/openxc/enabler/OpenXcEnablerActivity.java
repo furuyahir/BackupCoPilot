@@ -158,7 +158,7 @@ public class OpenXcEnablerActivity extends Activity {
             }
         });
 
-        findViewById(R.id.start_bluetooth_search_btn).setOnClickListener(
+       /* findViewById(R.id.start_bluetooth_search_btn).setOnClickListener(
                 new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -184,7 +184,7 @@ public class OpenXcEnablerActivity extends Activity {
                 }
             }
         });
-
+*/
         OpenXcEnablerActivity.this.runOnUiThread(new Runnable() {
             public void run() {
                 mServiceNotRunningWarningView.setVisibility(View.VISIBLE);
